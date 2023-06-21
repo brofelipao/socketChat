@@ -13,6 +13,8 @@ class Cliente():
     
     def send_message(self):
         nome = input('Digite seu nome: ')
+        while nome == "" or nome == None:
+            nome = input('Inválido! Digite seu nome: ')
         msg=str.encode(nome)
         self.socket.sendall(msg)
         while msg !='\x18':
