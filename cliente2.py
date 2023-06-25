@@ -10,7 +10,7 @@ fg_button = '#000000'
 bg_button = '#28cc89'
 
 class App():
-    def __init__(self, host, port):
+    def __init__(self):
         self.root = tk.Tk()
         self.root.withdraw()
 
@@ -92,6 +92,4 @@ class App():
             msg = data.decode()
             self.txt.insert(tk.END, "\n" + msg)
 
-host = '127.0.0.1' #end. de loopback
-port = 50000 #porta do servidor
-App(host, port)
+App()
