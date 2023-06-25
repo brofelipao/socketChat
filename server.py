@@ -16,15 +16,19 @@ class Server():
 
     def wait_message(self, conn, address):
         nome = conn.recv(1024).decode()
+        for client in clients:
+            client['conn'].sendall(f'\n{nome} entrou no chat.'.encode())
         while True:
             try:
                 data = conn.recv(1024)
-                msg = data.decode()
-                msg = f'{nome}: {msg}'.encode()
                 if not data:
                     print('Fechando a conexão!')
                     conn.close()
+                    for client in clients:
+                        client['conn'].sendall(f'{nome} se desconectou do chat.'.encode())
                     break
+                msg = data.decode()
+                msg = f'{nome} -> {msg}'.encode()
                 for client in clients:
                     client['conn'].sendall(msg)
             except:
@@ -32,6 +36,7 @@ class Server():
                 index = [enum for enum, c in enumerate(clients) if c['endr'] == address][0]
                 clients.pop(index)
                 break
+
     def get_connected(self):
         while True:
             conn, endr = self.socket.accept()
